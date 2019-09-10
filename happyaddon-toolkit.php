@@ -37,9 +37,12 @@ function happyaddon_check_elementor() {
 	load_plugin_textdomain('happyaddon-toolkit', false, plugin_basename(dirname(__FILE__)) . '/languages/');
 
 	if (defined('ELEMENTOR_VERSION')) {
-		require_once( happyaddon_get_plugin_path( 'inc/elementor/extend-default-button-widget.php' ) );
+		require_once(happyaddon_get_plugin_path('inc/elementor/extend-default-button-widget.php'));
+		require_once(happyaddon_get_plugin_path('inc/elementor/custom-control-init.php'));
+//		require_once(happyaddon_get_plugin_path('inc/elementor/emoji-control.php'));
+		require_once(happyaddon_get_plugin_path('inc/elementor/elementor-init.php'));
 	} else {
-		add_action( 'admin_notices', 'happyaddon_elementor_not_active' );
+		add_action('admin_notices', 'happyaddon_elementor_not_active');
 	}
 
 }
@@ -51,4 +54,12 @@ if (!function_exists('happyaddon_elementor_not_active')) {
 			' . __('<strong>HappyAddon Toolkit</strong>: Please install and activate Elementor to use this plugin', 'happyaddon-toolkit') . '
 			</p></div>');
 	}
+}
+
+//add_action('elementor/controls/controls_registered', 'happyaddon_register_controls');
+function happyaddon_register_controls() {
+	require_once(happyaddon_get_plugin_path('inc/elementor/emoji-control.php'));
+
+	$controls_manager = \Elementor\Plugin::$instance->controls_manager;
+	$controls_manager->register_control('CUSTOM', new \ElementorControls\Controls\Elementor_Custom());
 }
