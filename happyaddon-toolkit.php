@@ -37,6 +37,7 @@ function happyaddon_check_elementor() {
 	load_plugin_textdomain('happyaddon-toolkit', false, plugin_basename(dirname(__FILE__)) . '/languages/');
 
 	if (defined('ELEMENTOR_VERSION')) {
+		require_once( happyaddon_get_plugin_path( 'inc/functions.php' ) );
 		require_once( happyaddon_get_plugin_path( 'inc/elementor/extend-default-button-widget.php' ) );
 	} else {
 		add_action( 'admin_notices', 'happyaddon_elementor_not_active' );
